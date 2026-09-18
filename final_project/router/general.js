@@ -22,39 +22,63 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  res.send(JSON.stringify(books,null,4));
+  const getBooks = new Promise((resolve, reject) => {
+    resolve(res.send(JSON.stringify(books,null,4)));
+  });
+  getBooks.then(() => console.log("Promise for Task 10 resolved"));
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn = req.params.isbn;
-  res.send(books[isbn]);
+  const getBook = new Promise((resolve, reject) => {
+    const isbn = req.params.isbn;
+    if (books[isbn]) {
+      resolve(res.send(books[isbn]));
+    } else {
+      reject(res.status(404).send("Book not found"));
+    }
+  });
+  getBook.then(() => console.log("Promise for Task 11 resolved")).catch(err => console.log(err));
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-  const author = req.params.author;
-  const keys = Object.keys(books);
-  const booksByAuthor = [];
-  keys.forEach(key => {
-    if(books[key].author === author) {
-      booksByAuthor.push(books[key]);
+  const getBookByAuthor = new Promise((resolve, reject) => {
+    const author = req.params.author;
+    const keys = Object.keys(books);
+    const booksByAuthor = [];
+    keys.forEach(key => {
+      if(books[key].author === author) {
+        booksByAuthor.push(books[key]);
+      }
+    });
+    if (booksByAuthor.length > 0) {
+      resolve(res.send(booksByAuthor));
+    } else {
+      reject(res.status(404).send("Author not found"));
     }
   });
-  res.send(booksByAuthor);
+  getBookByAuthor.then(() => console.log("Promise for Task 12 resolved")).catch(err => console.log(err));
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  const title = req.params.title;
-  const keys = Object.keys(books);
-  const booksByTitle = [];
-  keys.forEach(key => {
-    if(books[key].title === title) {
-      booksByTitle.push(books[key]);
+  const getBookByTitle = new Promise((resolve, reject) => {
+    const title = req.params.title;
+    const keys = Object.keys(books);
+    const booksByTitle = [];
+    keys.forEach(key => {
+      if(books[key].title === title) {
+        booksByTitle.push(books[key]);
+      }
+    });
+    if (booksByTitle.length > 0) {
+      resolve(res.send(booksByTitle));
+    } else {
+      reject(res.status(404).send("Title not found"));
     }
   });
-  res.send(booksByTitle);
+  getBookByTitle.then(() => console.log("Promise for Task 13 resolved")).catch(err => console.log(err));
 });
 
 //  Get book review

@@ -1,0 +1,5 @@
+cURL command:
+curl -s -b cookie.txt -X PUT "http://127.0.0.1:5000/customer/auth/review/1?review=AwesomeBook"
+
+Output:
+Review successfully posted
