@@ -1,0 +1,5 @@
+cURL command:
+curl.exe -s -X POST -H "Content-Type: application/json" -d '{"username":"testuser","password":"testpassword"}' http://127.0.0.1:5000/register
+
+Output:
+{"message":"User successfully registred. Now you can login"}
